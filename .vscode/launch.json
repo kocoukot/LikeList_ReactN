@@ -1,0 +1,22 @@
+{
+  "configurations": [
+    {
+      "name": "Run iOS",
+      "request": "launch",
+      "type": "reactnativedirect",
+      "cwd": "${workspaceFolder}",
+      "enableDebug": false,
+      "platform": "ios"
+    },
+
+    {
+      "name": "Run Android",
+      "request": "launch",
+      "type": "reactnativedirect",
+      "cwd": "${workspaceFolder}",
+      "enableDebug": false,
+      "platform": "android"
+    }
+
+  ]
+}
