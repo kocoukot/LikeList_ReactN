@@ -7,11 +7,14 @@ import {ListScreen} from '../screens/MainListScreen';
 import {TabBarAdvancedButton} from '../components';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {EmptyScreen} from '../components/EmptyScreen';
-import {ScreenContent} from '../screens/AddItemScreen';
+import {AddNewItemScreen} from '../screens/AddItemScreen';
 import {ProfileScreen} from '../screens';
 import {Colors} from '../utils/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Provider } from 'react-redux';
+import {store} from '../store/store';
 
+// pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
@@ -19,10 +22,14 @@ const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 
 export function NavigationTabs() {
+  
   return (
+    <Provider store={store}>
+
     <Stack.Navigator
       screenOptions={{
         headerStyle: [styles.header],
+        headerTintColor: Colors.textColor
       }}>
       <Stack.Screen
         name="MainScreen"
@@ -30,10 +37,11 @@ export function NavigationTabs() {
           headerShown: false,
         }}
         component={MainScreenTabs}
-      />
+        />
 
-      <Stack.Screen name="AddNewItem" component={ScreenContent} />
+      <Stack.Screen name="AddNewItem" component={AddNewItemScreen} />
     </Stack.Navigator>
+        </Provider>
   );
 }
 
@@ -103,7 +111,7 @@ function MainScreenTabs() {
           }}
           android_ripple={{color: Colors.ripple, borderless: true}}
           onPress={() => navigation.navigate('AddNewItem')}>
-          <Ionicons name="add" size={42} color="black" />
+          <Ionicons name="add" size={42} color={Colors.textColor} />
         </Pressable>
       </View>
     </View>

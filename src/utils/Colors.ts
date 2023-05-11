@@ -8,7 +8,9 @@ export const Colors = {
     tabBarInactiveColor: "#958e69",
     transparent: "transparent",
     shadowColor: "black",
-    ripple: '#F3FFE6'
+    ripple: '#F3FFE6',
+    red: 'red',
+    black: 'black'
 }
 //1 #F3FFE6
 //2 #E5E8D1

@@ -2,7 +2,7 @@ import {StyleSheet, View, Text, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {Colors} from '../utils/Colors';
 
-export function MainAppButton({onPress}) {
+export function MainAppButton({title, onPress}) {
   const [btnState, setBtnState] = useState(false);
 
   return (
@@ -15,9 +15,8 @@ export function MainAppButton({onPress}) {
             : [styles.buttonInnerView];
         }}
         onPress={onPress}
-        // () => navigation.navigate('Details')}
         android_ripple={{color: Colors.ripple, borderless: true}}>
-        <Text style={styles.btnText}>Go to Details</Text>
+        <Text style={styles.btnText}>{title}</Text>
       </Pressable>
     </View>
   );
@@ -25,7 +24,7 @@ export function MainAppButton({onPress}) {
 
 const styles = StyleSheet.create({
   buttonOuterView: {
-    margin: 4,
+    marginVertical: 16,
     borderRadius: 28,
   },
 
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     shadowColor: Colors.shadowColor,
     shadowRadius: 28,
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
     shadowOffset: {width: 0, height: 2},
     paddingHorizontal: 16,
     paddingVertical: 8,

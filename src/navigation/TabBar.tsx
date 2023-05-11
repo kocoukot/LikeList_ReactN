@@ -7,7 +7,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationTabs} from './NavigationTabs';
 import {GroupItemList} from '../screens/GroupItemList';
 import {Colors} from '../utils/Colors';
-
+import {Provider} from 'react-redux';
+import {store} from '../store/store';
 const ListStack = createNativeStackNavigator();
 
 type Props = {
@@ -15,24 +16,30 @@ type Props = {
 };
 
 export const TabBar: React.FC<Props> = ({barColor}) => (
-  <NavigationContainer>
-    <ListStack.Navigator
-      screenOptions={{
-        headerStyle: [styles.headerStyle, styles.screenStyle],
-        
-      headerTintColor: Colors.textColor
-      }}>
-      <ListStack.Screen
-        name="NavTabs"
-        options={{
-          headerShown: false,
-        }}
-        component={NavigationTabs}
-      />
+  <Provider store={store}>
+    <NavigationContainer>
+      <ListStack.Navigator
+        screenOptions={{
+          headerStyle: [styles.headerStyle, styles.screenStyle],
 
-      <ListStack.Screen name="Details" component={GroupItemList} options={{headerStyle:[styles.headerStyle]}} />
-    </ListStack.Navigator>
-  </NavigationContainer>
+          headerTintColor: Colors.textColor,
+        }}>
+        <ListStack.Screen
+          name="NavTabs"
+          options={{
+            headerShown: false,
+          }}
+          component={NavigationTabs}
+        />
+
+        <ListStack.Screen
+          name="Details"
+          component={GroupItemList}
+          options={{headerStyle: [styles.headerStyle]}}
+        />
+      </ListStack.Navigator>
+    </NavigationContainer>
+  </Provider>
 );
 
 const styles = StyleSheet.create({
