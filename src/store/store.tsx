@@ -1,14 +1,27 @@
 import {configureStore} from '@reduxjs/toolkit';
-import {likeListGroupSlice} from '../store/groups'
+import {persistReducer, persistStore} from 'redux-persist';
 
-import likeItemReducer from './groups'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const store = configureStore({
-  reducer: {
-    listItems: likeListGroupSlice.reducer
-  },
+import likeListGroupReducer from './groups';
+
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+};
+
+const persistedReducer = persistReducer(persistConfig, likeListGroupReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+const persistor = persistStore(store, null, () => {
+  console.log('Store rehydrated');
+});
 
+export {store, persistor};
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

@@ -1,13 +1,13 @@
-import {FlatList, View, StyleSheet, Text, Pressable} from 'react-native';
+import {FlatList, View, StyleSheet, Text, Pressable, Dimensions} from 'react-native';
 import GroupModel from '../utils/GroupModel';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/store';
+
+const windowWidth = Dimensions.get('window').width;
+
 
 export function GroupsList({itemsList}) {
-  const myList = useSelector((state: RootState) => state.listItems).items;
-
+  
   const navigation = useNavigation();
 
   function renderCardItem(itemData) {
@@ -35,7 +35,8 @@ export function GroupsList({itemsList}) {
           }}
           onPress={onCardSelect}
           android_ripple={{color: Colors.ripple, borderless: true}}>
-          <Text>{itemInfo.itemGroup}</Text>
+          <Text>Item name - {itemInfo.itemName}</Text>
+          <Text>Group name - {itemInfo.itemGroup}</Text>
         </Pressable>
       </View>
     );
@@ -61,7 +62,8 @@ const styles = StyleSheet.create({
   cardOuterView: {
     margin: 8,
     aspectRatio: 1,
-    flex: 1,
+    width: (windowWidth / 2) - 16,
+    // flex: 1,
     elevation: 4,
     borderRadius: 28,
   },

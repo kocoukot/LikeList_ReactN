@@ -104,7 +104,7 @@ function MainScreenTabs() {
       <View style={[styles.buttonOuterView, {elevation: btnState ? 0 : 4}]}>
         <Pressable
           style={({pressed}) => {
-            setBtnState(pressed);
+            // setBtnState(pressed);
             return pressed
               ? [styles.buttonInnerView, styles.pressed]
               : [styles.buttonInnerView];

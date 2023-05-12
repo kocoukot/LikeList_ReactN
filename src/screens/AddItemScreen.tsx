@@ -4,78 +4,64 @@ import {
   View,
   SafeAreaView,
   TextInput,
-  Alert,
   ScrollView,
 } from 'react-native';
 import ColorPicker, {
-  Panel1,
   HueSlider,
   SaturationSlider,
 } from 'reanimated-color-picker';
 import {Colors} from '../utils/Colors';
 import {MainAppButton} from '../components/Buttons';
-import {useSelector, useDispatch} from 'react-redux';
-import {RootState} from '../store/store';
-import {addLikeItem} from '../store/groups';
+import {useDispatch} from 'react-redux';
+
 import GroupModel from '../utils/GroupModel';
 import {useNavigation} from '@react-navigation/native';
+import {addLikeItem} from '../store/groups';
 
 export function AddNewItemScreen() {
-  const [likeItemModel, setGroupName] = useState(new GroupModel());
-
-  const [selectedColor, setSelectedColor] = useState('black');
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  const [itemName, setItemName] = useState('');
+  const [itemGroupName, setItemGroupName] = useState('');
+  const [selectedColor, setSelectedColor] = useState('#c9fffb');
+
   const onSelectColor = ({hex}) => {
+    setSelectedColor(hex);
     console.log(hex);
-    const updatedPerson = {...likeItemModel, itemColor: hex};
-    setGroupName(updatedPerson);
   };
 
   function onAddNewItem() {
-    const updatedPerson = {...likeItemModel, key: Math.random().toString()};
-    setGroupName(updatedPerson);
-    dispatch(addLikeItem(likeItemModel));
-    console.log('element ' + likeItemModel);
-
-    //    navigation.goBack();
+    const groupModel = new GroupModel(itemName, itemGroupName, selectedColor);
+    dispatch(addLikeItem(groupModel));
+    navigation.goBack();
   }
 
-  function onNameChanged(itemName: string) {
-    // const updatedPerson = {...likeItemModel, itemName: itemName};
-    // setGroupName(updatedPerson);
-  }
-
-  const listItem = useSelector((state: RootState) => state.listItems.items);
-  const dispatch = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={{flex: 1}}>
         <View style={styles.viewStyle}>
           <TextInput
+            value={itemName}
             placeholder="Item name"
             style={styles.inputStyle}
             onChangeText={text => {
-              onNameChanged(text);
+              setItemName(text);
             }}
           />
           <TextInput
+            value={itemGroupName}
             placeholder="Item group"
             style={styles.inputStyle}
             onChangeText={text => {
-              // setGroupName(text);
-            }}
-          />
-          <TextInput
-            placeholder="Item subgroup"
-            style={styles.inputStyle}
-            onChangeText={text => {
-              // setGroupName(text);
+              setItemGroupName(text);
             }}
           />
 
-
-          <ColorPicker style={{paddingVertical:24}} value="red" onComplete={onSelectColor}>
+          <ColorPicker
+            style={{paddingVertical: 24}}
+            value={selectedColor}
+            onComplete={onSelectColor}>
             <View style={styles.colorSection}>
               <SaturationSlider
                 style={styles.slider}
@@ -105,7 +91,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.backgroundColor,
-    
   },
   inputStyle: {
     marginTop: 16,
@@ -118,9 +103,9 @@ const styles = StyleSheet.create({
   iconsSection: {
     flex: 1,
     borderColor: Colors.buttonColor,
-    borderWidth:2,
-    marginHorizontal:8,
-    borderRadius:28
+    borderWidth: 2,
+    marginHorizontal: 8,
+    borderRadius: 28,
   },
   slider: {
     height: 200,
