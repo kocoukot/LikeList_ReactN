@@ -26,8 +26,16 @@ export const IS_IPHONE_X = (() => {
   );
 })();
 
-export const rnd = (max = 256) =>
-  Math.random() * max;
+export const rnd = (max = 200) =>
+ Math.floor (Math.random() * max);
 
+  function componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+export function rgbToHex() {
+  return "#" + componentToHex(rnd()) + componentToHex(rnd()) + componentToHex(rnd());
+}
 export const generateColor = () =>
   `rgb(${rnd()},${rnd()},${rnd()})`;

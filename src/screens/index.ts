@@ -1,2 +1,2 @@
 export * from './ProfileScreen';
-export * from './AddItemScreen';
+export * from './addNewItem/AddItemScreen';

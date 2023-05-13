@@ -1,19 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import GroupModel from '../utils/GroupModel';
 
-interface Todo {
+export type LikedItem = {
   id: string
   itemName: string
+  itemComments: string
   itemGroup: string
   itemColor: string
+  itemRating: number,
+  itemGroupIcon: string
 }
 
-interface TodosState {
-  todos: Todo[];
+type LikedItemsState =  {
+  list: LikedItem[];
 }
 
-const initialState: TodosState = {
-  todos: [],
+const initialState: LikedItemsState = {
+  list: [],
 };
 
 
@@ -23,12 +25,12 @@ export const likeListGroupSlice = createSlice({
     items: initialState,
   },
   reducers: {
-    addLikeItem: (state, action: PayloadAction<GroupModel>) => {
+    addLikeItem: (state, action: PayloadAction<LikedItem>) => {
       console.log('addItem action ' + action.payload)
-      state.items.todos.push(action.payload.toJson());
+      state.items.list.push(action.payload);
     },
     removeItem: (state, action) => {
-      state.items.todos = state.items.todos.filter(todo => todo.id !== action.payload);
+      state.items.list = state.items.list.filter(todo => todo.id !== action.payload);
 
     },
   },

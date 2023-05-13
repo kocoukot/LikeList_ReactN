@@ -5,8 +5,8 @@
       "request": "launch",
       "type": "reactnativedirect",
       "cwd": "${workspaceFolder}",
-      "enableDebug": false,
-      "platform": "ios"
+      "enableDebug": true,
+      "platform": "ios",
     },
 
     {

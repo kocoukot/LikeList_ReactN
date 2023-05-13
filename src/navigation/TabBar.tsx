@@ -1,6 +1,6 @@
 // @ts-ignore
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -19,6 +19,11 @@ type Props = {
 export const TabBar: React.FC<Props> = ({barColor}) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
+    <SafeAreaView style={{ flex: 0, backgroundColor: Colors.backgroundColor }} />
+
+    <SafeAreaView style={styles.container}>
+
+
       <NavigationContainer>
         <ListStack.Navigator
           screenOptions={{
@@ -41,11 +46,16 @@ export const TabBar: React.FC<Props> = ({barColor}) => (
           />
         </ListStack.Navigator>
       </NavigationContainer>
+      </SafeAreaView>
     </PersistGate>
   </Provider>
 );
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.tabBarColor,
+  },
   headerStyle: {
     backgroundColor: Colors.backgroundColor,
   },

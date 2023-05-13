@@ -3,18 +3,18 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Dimensions, Pressable} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {ListScreen} from '../screens/MainListScreen';
+import {ListScreen} from '../screens/mainList/MainListScreen';
 import {TabBarAdvancedButton} from '../components';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {EmptyScreen} from '../components/EmptyScreen';
-import {AddNewItemScreen} from '../screens/AddItemScreen';
+import {AddNewItemScreen} from '../screens/addNewItem/AddItemScreen';
 import {ProfileScreen} from '../screens';
 import {Colors} from '../utils/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import {store} from '../store/store';
 
-// pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
 const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
@@ -22,26 +22,24 @@ const Stack = createNativeStackNavigator();
 const windowWidth = Dimensions.get('window').width;
 
 export function NavigationTabs() {
-  
   return (
     <Provider store={store}>
-
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: [styles.header],
-        headerTintColor: Colors.textColor
-      }}>
-      <Stack.Screen
-        name="MainScreen"
-        options={{
-          headerShown: false,
-        }}
-        component={MainScreenTabs}
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: [styles.header],
+          headerTintColor: Colors.textColor,
+        }}>
+        <Stack.Screen
+          name="MainScreen"
+          options={{
+            headerShown: false,
+          }}
+          component={MainScreenTabs}
         />
 
-      <Stack.Screen name="AddNewItem" component={AddNewItemScreen} />
-    </Stack.Navigator>
-        </Provider>
+        <Stack.Screen name="AddNewItem" component={AddNewItemScreen} />
+      </Stack.Navigator>
+    </Provider>
   );
 }
 
@@ -110,7 +108,7 @@ function MainScreenTabs() {
               : [styles.buttonInnerView];
           }}
           android_ripple={{color: Colors.ripple, borderless: true}}
-          onPress={() => navigation.navigate('AddNewItem')}>
+          onPress={() => navigation.navigate('AddNewItem' as never ) }>
           <Ionicons name="add" size={42} color={Colors.textColor} />
         </Pressable>
       </View>
@@ -133,13 +131,12 @@ const styles = StyleSheet.create({
   buttonOuterView: {
     bottom: 20,
     left: windowWidth / 2 - 32,
-    position: 'absolute',    
+    position: 'absolute',
     borderRadius: 32,
     shadowColor: Colors.shadowColor,
     shadowRadius: 32,
     shadowOpacity: 0.1,
     shadowOffset: {width: 0, height: 1},
-
   },
   buttonInnerView: {
     borderRadius: 32,

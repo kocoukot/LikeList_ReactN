@@ -1,13 +1,18 @@
-import {FlatList, View, StyleSheet, Text, Pressable, Dimensions} from 'react-native';
-import GroupModel from '../utils/GroupModel';
+import {
+  FlatList,
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+  Dimensions,
+  Image,
+} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useNavigation} from '@react-navigation/native';
 
 const windowWidth = Dimensions.get('window').width;
 
-
 export function GroupsList({itemsList}) {
-  
   const navigation = useNavigation();
 
   function renderCardItem(itemData) {
@@ -16,9 +21,9 @@ export function GroupsList({itemsList}) {
 
   function GroupCard({itemInfo}) {
     function onCardSelect() {
-      navigation.navigate('Details', {
+      navigation.navigate('Details' as never, {
         groupName: itemInfo.itemGroup,
-      });
+      }  as never);
     }
 
     return (
@@ -35,8 +40,25 @@ export function GroupsList({itemsList}) {
           }}
           onPress={onCardSelect}
           android_ripple={{color: Colors.ripple, borderless: true}}>
-          <Text>Item name - {itemInfo.itemName}</Text>
-          <Text>Group name - {itemInfo.itemGroup}</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flex: 1,
+              paddingHorizontal: 18,
+            }}>
+            <Text style={styles.title} >{itemInfo.itemGroup}</Text>
+            <View style={{width:8}}/>
+            <Image
+              style={{
+                flex: 1,
+                tintColor: Colors.tabBarInactiveColor,
+              }}
+              resizeMode="contain"
+              source={itemInfo.itemGroupIcon}
+            />
+          </View>
         </Pressable>
       </View>
     );
@@ -61,8 +83,8 @@ const styles = StyleSheet.create({
   },
   cardOuterView: {
     margin: 8,
-    aspectRatio: 1,
-    width: (windowWidth / 2) - 16,
+    aspectRatio: 2,
+    width: windowWidth / 2 - 16,
     // flex: 1,
     elevation: 4,
     borderRadius: 28,
@@ -78,11 +100,14 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
   },
   title: {
-    fontSize: 32,
+    fontSize: 18,
+    fontWeight: '500',
+    letterSpacing: 0.02,
+    textAlign:"center",
+    flex:2
   },
   pressed: {
     borderRadius: 28,
     opacity: 0.5,
   },
-  
 });
