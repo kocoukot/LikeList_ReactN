@@ -24,7 +24,7 @@ export function GroupItemList({route}) {
   return (
     <View style={styles.container}>
       <FlatList
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.key}
         data={filteredList}
         renderItem={itemData => (
           <View style={{flexDirection: 'row', justifyContent:'space-between', alignContent:'space-between', alignItems:"center"}}>

@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, SafeAreaView, ScrollView, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 
 import {Colors} from '../../utils/Colors';
 import {MainAppButton} from '../../components/Buttons';
@@ -27,7 +33,7 @@ export function AddNewItemScreen() {
   const [itemGroupName, setItemGroupName] = useState('');
   const [itemComments, setItemComments] = useState('');
   const [selectedColor, setSelectedColor] = useState('#ffd6d6');
-  const [selectedRating, setSelectedRating] = useState(4.5);
+  const [selectedRating, setSelectedRating] = useState(4);
   const [selectedIcon, setSelectedIcon] = useState('');
 
   const onSelectColor = ({hex}) => {
@@ -38,7 +44,7 @@ export function AddNewItemScreen() {
   function onAddNewItem() {
     if (itemName.length > 0 && itemGroupName.length > 0) {
       const newItem: LikedItem = {
-        id: uuid.v4().toString(),
+        key: uuid.v4().toString(),
         itemName: itemName,
         itemComments: itemComments,
         itemGroup: itemGroupName,
@@ -54,12 +60,15 @@ export function AddNewItemScreen() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaView style={styles.container}>
-
-        <ScrollView 
-        
-          contentContainerStyle={{ flexGrow: 1, justifyContent: 'space-between', flexDirection: 'column' , backgroundColor: Colors.backgroundColor,}}
-
-         nestedScrollEnabled={true} alwaysBounceVertical={false}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            flexDirection: 'column',
+            backgroundColor: Colors.backgroundColor,
+          }}
+          nestedScrollEnabled={true}
+          alwaysBounceVertical={false}>
           <View style={styles.viewStyle}>
             <InputComponent
               limitAmount={30}
@@ -80,6 +89,7 @@ export function AddNewItemScreen() {
               }}
             />
 
+            <View style={{height: 24}} />
             <InputComponent
               limitAmount={30}
               placeholder={'Item group'}
@@ -117,7 +127,7 @@ export function AddNewItemScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+
     backgroundColor: Colors.backgroundColor,
   },
 

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type LikedItem = {
-  id: string
+  key: string
   itemName: string
   itemComments: string
   itemGroup: string
@@ -30,7 +30,7 @@ export const likeListGroupSlice = createSlice({
       state.items.list.push(action.payload);
     },
     removeItem: (state, action) => {
-      state.items.list = state.items.list.filter(todo => todo.id !== action.payload);
+      state.items.list = state.items.list.filter(todo => todo.key !== action.payload);
 
     },
   },
