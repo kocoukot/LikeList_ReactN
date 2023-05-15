@@ -78,7 +78,19 @@ export function AddNewItemScreen() {
               }}
             />
 
-            <RatingBarContent onRatingSelect={setSelectedRating} />
+            <RatingBarContent
+              onRatingSelect={setSelectedRating}
+              style={{
+                container: {
+                  alignItems: 'center',
+                },
+                starContainer: {
+                  alignContent: 'center',
+                  marginTop: 16,
+                  justifyContent: 'center',
+                },
+              }}
+            />
 
             <InputComponent
               limitAmount={500}
