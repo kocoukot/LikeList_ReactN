@@ -8,23 +8,24 @@ export default function RatingBarContent({
   onRatingSelect,
   style,
 }) {
-  
+  function ratingCompleted(rating) {
+    console.log('Rating is: ' + rating);
+    onRatingSelect(rating);
+  }
 
   return (
     <Rating
-    readonly={readonlyMode}
+      readonly={readonlyMode}
       imageSize={30}
-      startingValue={4}
-      type='custom'
+      startingValue={initValue}
+      type="custom"
       tintColor={Colors.backgroundColor}
       ratingBackgroundColor={Colors.tabBarColor}
       ratingColor={Colors.tabBarInactiveColor}
       style={style}
       ratingImage={require('../../assets/heart.png')}
-      onFinishRating={(value: number) => {
-        onRatingSelect(value);
-      }}
-/>   
+      onFinishRating={ratingCompleted}
+    />
   );
 }
 

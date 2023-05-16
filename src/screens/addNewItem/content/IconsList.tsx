@@ -6,6 +6,7 @@ import {
   FlatList,
   Pressable,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {Colors} from '../../../utils/Colors';
 
@@ -14,10 +15,51 @@ export default function IconsListComponent({
   selectedIcon,
   selectedColor,
 }) {
-
+  const imgName = 'ic_bear.png';
+  // const staticImagePath = require(`../../../../assets/${imgName}`);
   return (
-    
     <View style={styles.iconsSection}>
+      {/* <ScrollView>
+      {ICONS_LIST_TEST.map(itemData =>{
+        console.log("itemData " + itemData)
+        // const staticImagePath = require(`../../../../assets/${itemData.toString()}`);
+        return (
+          <View
+              style={[
+                styles.iconContainer,
+                {
+                  backgroundColor:
+                    selectedIcon == itemData
+                      ? selectedColor
+                      : Colors.transparent,
+                },
+              ]}>
+              <Pressable
+                style={({pressed}) => {
+                  return pressed
+                    ? {flex: 1, opacity: Platform.OS == 'ios' ? 0.2 : 1}
+                    : {flex: 1};
+                }}
+                onPress={() => {
+                  console.log('selected icon ' + itemData);
+                  onIconSelect(itemData);
+                }}
+                android_ripple={{
+                  color: Colors.ripple,
+                  borderless: true,
+                }}>
+                    
+
+                <Image
+                key={itemData}
+                  source={require(`../../../../assets/${itemData}`)}
+                  style={{flex: 1, aspectRatio: 1, margin: 8}}
+                />
+              </Pressable>
+            </View>
+        )
+      })}
+      </ScrollView> */}
 
       <FlatList
         nestedScrollEnabled={true}
@@ -25,37 +67,43 @@ export default function IconsListComponent({
         style={{height: 10}}
         data={ICONS_LIST}
         numColumns={4}
-        renderItem={itemData => (
-          <View
-            style={[
-              styles.iconContainer,
-              {
-                backgroundColor:
-                  selectedIcon == itemData.item
-                    ? selectedColor
-                    : Colors.transparent,
-              },
-            ]}>
-            <Pressable
-              style={({pressed}) => {
-                return pressed
-                  ? {flex: 1, opacity: Platform.OS == 'ios' ? 0.2 : 1}
-                  : {flex: 1};
-              }}
-              onPress={() => {
-                onIconSelect(itemData.item);
-              }}
-              android_ripple={{
-                color: Colors.ripple,
-                borderless: true,
-              }}>
-              <Image
-                source={itemData.item}
-                style={{flex: 1, aspectRatio: 1, margin: 8}}
-              />
-            </Pressable>
-          </View>
-        )}
+        renderItem={itemData => {
+          console.log('itemData ' + itemData.item);
+          const imgName = itemData.item;
+
+          return (
+            <View
+              style={[
+                styles.iconContainer,
+                {
+                  backgroundColor:
+                    selectedIcon == itemData.item.title
+                      ? selectedColor
+                      : Colors.transparent,
+                },
+              ]}>
+              <Pressable
+                style={({pressed}) => {
+                  return pressed
+                    ? {flex: 1, opacity: Platform.OS == 'ios' ? 0.2 : 1}
+                    : {flex: 1};
+                }}
+                onPress={() => {
+                  console.log('selected icon ' + itemData.item);
+                  onIconSelect(itemData.item);
+                }}
+                android_ripple={{
+                  color: Colors.ripple,
+                  borderless: true,
+                }}>
+                <Image
+                  source={itemData.item.image}
+                  style={{flex: 1, aspectRatio: 1, margin: 8}}
+                />
+              </Pressable>
+            </View>
+          );
+        }}
       />
     </View>
   );

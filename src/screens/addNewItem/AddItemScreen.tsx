@@ -24,6 +24,7 @@ import RatingBarContent from '../../components/RatingBarComponent';
 import IconsListComponent from './content/IconsList';
 
 import ColorPickerComponent from './content/ColorPickerComponent';
+import { IImage } from '../../../assets';
 //
 export function AddNewItemScreen() {
   const dispatch = useDispatch();
@@ -112,7 +113,7 @@ export function AddNewItemScreen() {
 
             <View style={styles.colorSection}>
               <IconsListComponent
-                onIconSelect={setSelectedIcon}
+                onIconSelect={(item: IImage) =>{setSelectedIcon(item.title)}}
                 selectedIcon={selectedIcon}
                 selectedColor={selectedColor}
               />

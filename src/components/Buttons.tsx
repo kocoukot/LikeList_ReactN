@@ -4,7 +4,7 @@ import {Colors} from '../utils/Colors';
 
 export function MainAppButton({title, isEnable, onPress}) {
   const [btnState, setBtnState] = useState(false);
-console.log("isEnable " +isEnable)
+
   return (
     <View style={[styles.buttonOuterView, {elevation: isEnable ? 4 : 0}]}>
       <Pressable
