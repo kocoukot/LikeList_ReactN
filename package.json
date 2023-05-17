@@ -21,6 +21,7 @@
     "react": "18.2.0",
     "react-addons-update": "^15.6.3",
     "react-native": "0.71.7",
+    "react-native-drag-sort": "^2.4.4",
     "react-native-drag-sort-gridview": "^1.4.0",
     "react-native-draggable-grid": "^2.1.7",
     "react-native-draggable-gridview": "^1.0.3",

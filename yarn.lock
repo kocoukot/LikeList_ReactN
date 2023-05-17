@@ -7696,6 +7696,11 @@ react-native-drag-sort-gridview@^1.4.0:
   resolved "https://registry.npmjs.org/react-native-drag-sort-gridview/-/react-native-drag-sort-gridview-1.4.0.tgz"
   integrity sha512-05cft+WFX3zvW/13yAbFr2paqU/IpqNTfbKKXW+4iqhFn+aeJbBRtX9IO14g+SuybpHFU+6ElieI+hoAXMWY0g==
 
+react-native-drag-sort@^2.4.4:
+  version "2.4.4"
+  resolved "https://registry.npmjs.org/react-native-drag-sort/-/react-native-drag-sort-2.4.4.tgz"
+  integrity sha512-MixkgMzybt8tn9m850YK5VOSlicytV41mOp/b1gAE7cK94bou27ApvVJH9oCM61vY5EN6g9VT5PwLOahbYc+BQ==
+
 react-native-draggable-grid@^2.1.7:
   version "2.1.7"
   resolved "https://registry.npmjs.org/react-native-draggable-grid/-/react-native-draggable-grid-2.1.7.tgz"

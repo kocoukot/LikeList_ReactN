@@ -1,47 +1,42 @@
+import React, {memo, useEffect, useState} from 'react';
 import {
-  Dimensions,
-  Text,
-  StyleSheet,
   View,
+  StyleSheet,
+  Text,
+  Dimensions,
   Image,
-  Pressable,
+  ScrollView,
 } from 'react-native';
-import {AutoDragSortableView} from 'react-native-drag-sort';
-import React, {useEffect, useState} from 'react';
+import {DraggableGrid} from 'react-native-draggable-grid';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {ICONS_LIST} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
+import {ICONS_LIST} from '../../../../assets';
 import {useDispatch} from 'react-redux';
-import {onOrderChange, LikedItem} from '../../store/groups';
+import {onOrderChange, LikedItem} from '../../../store/groups';
+
 
 const windowWidth = Dimensions.get('window').width;
-
 interface Props {
-  list: LikedItem[];
+  list : LikedItem[];
 }
-export const GroupsList: React.FC<Props> = React.memo(({list}) => {
+
+const GroupsListOld: React.FC<Props> = React.memo(({ list}) =>  {
+
+  const [data, setData] = useState<LikedItem[]>(list);
+  useEffect(()=>{
+    setData(list)
+  },[list])
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [data, setData] = useState<LikedItem[]>(list);
-  const [isDragging, setIsDragging] = useState(-1);
-
-  useEffect(() => {
-    setData(list);
-  }, [list]);
-
-  function render_item(item: LikedItem, index: number) {
+  function render_item(item: LikedItem) {
     const image = ICONS_LIST.find(listItem => {
       return listItem.title == item.itemGroupIcon;
     });
 
     return (
       <View
-        style={[
-          styles.cardOuterView,
-          {backgroundColor: item.itemColor},
-          !(isDragging == index) && styles.cardShadow,
-        ]}
+        style={[styles.cardOuterView, {backgroundColor: item.itemColor}]}
         key={item.key}>
         <Text style={styles.title}>{item.itemGroup}</Text>
         <Image
@@ -65,32 +60,23 @@ export const GroupsList: React.FC<Props> = React.memo(({list}) => {
   }
 
   return (
-    <AutoDragSortableView
-      minOpacity={0.4}
-      dataSource={list}
-      keyExtractor={(item, index) => item.key}
-      parentWidth={windowWidth}
-      onClickItem={(_, item) => {
-        onItemPress(item);
-      }}
-      childrenWidth={windowWidth / 2}
-      childrenHeight={windowWidth / 3.5}
-      renderItem={(item, index) => {
-        return render_item(item, index);
-      }}
-      onDragStart={fromIndex => {
-        setIsDragging(fromIndex);
-      }}
-      onDragEnd={() => {
-        setIsDragging(-1);
-      }}
-      onDataChange={item => {
-        setData(item);
-        dispatch(onOrderChange(item));
-      }}
-    />
+    <ScrollView style={{flex: 1, paddingBottom: 80}}>
+      <DraggableGrid
+
+        style={{flex: 1, marginBottom: 80}}
+        itemHeight={windowWidth / 3.5}
+        numColumns={2}
+        onItemPress={onItemPress}
+        renderItem={render_item}
+        data={data}
+        onDragRelease={data => {
+          setData(data);
+          dispatch(onOrderChange(data));
+        }}
+      />
+    </ScrollView>
   );
-});
+})
 
 const styles = StyleSheet.create({
   cardOuterView: {
@@ -99,13 +85,10 @@ const styles = StyleSheet.create({
     margin: 8,
     aspectRatio: 2,
     width: windowWidth / 2 - 16,
+    elevation: 4,
     borderRadius: 28,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  cardShadow: {
-    elevation: 4,
     shadowColor: Colors.shadowColor,
     shadowRadius: 4,
     shadowOpacity: 0.4,
