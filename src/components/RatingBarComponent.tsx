@@ -1,30 +1,38 @@
-import {Rating} from 'react-native-ratings';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {Colors} from '../utils/Colors';
-
+import StarRating from 'react-native-star-rating';
+import {useState} from 'react';
+//
 export default function RatingBarContent({
   initValue = 4,
   readonlyMode = false,
   onRatingSelect,
-  style,
 }) {
   function ratingCompleted(rating) {
     console.log('Rating is: ' + rating);
     onRatingSelect(rating);
   }
 
+  const [rating, setRating] = useState(initValue);
+
   return (
-    <Rating
-      readonly={readonlyMode}
-      imageSize={30}
-      startingValue={initValue}
-      type="custom"
-      tintColor={Colors.backgroundColor}
-      ratingBackgroundColor={Colors.tabBarColor}
-      ratingColor={Colors.tabBarInactiveColor}
-      style={[{paddingTop:readonlyMode ? 0 : 16},style]}
-      ratingImage={require('../../assets/img_heart.png')}
-      onFinishRating={ratingCompleted}
+    <StarRating
+      containerStyle={{paddingTop: readonlyMode ? 0 : 16}}
+      starStyle={{paddingHorizontal: readonlyMode ? 4 : 18}}
+      emptyStar={Platform.OS == 'ios' ? 'ios-heart' : 'heart'}
+      fullStar={Platform.OS == 'ios' ? 'ios-heart' : 'heart'}
+      halfStar={Platform.OS == 'ios' ? 'ios-heart' : 'heart'}
+      iconSet={Platform.OS == 'ios' ? 'Ionicons' : 'Foundation'}
+      fullStarColor={Colors.tabBarInactiveColor}
+      emptyStarColor={Colors.buttonColor}
+      halfStarColor={Colors.tabBarInactiveColor}
+      disabled={readonlyMode}
+      maxStars={5}
+      rating={rating}
+      selectedStar={rating => {
+        setRating(rating);
+        ratingCompleted(rating);
+      }}
     />
   );
 }

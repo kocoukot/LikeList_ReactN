@@ -1,6 +1,6 @@
 // @ts-ignore
 import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions, Pressable} from 'react-native';
+import {StyleSheet, View, Dimensions, Pressable, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {ListScreen} from '../screens/mainList/MainListScreen';
@@ -13,7 +13,8 @@ import {Colors} from '../utils/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Provider} from 'react-redux';
 import {store} from '../store/store';
-
+import Icon from 'react-native-ionicons';
+import ItemIcon from '../components/IconResolve';
 
 const Tab = createBottomTabNavigator();
 
@@ -72,7 +73,11 @@ function MainScreenTabs() {
           component={ListScreen}
           options={{
             tabBarIcon: ({color, size}) => {
-              return <Ionicons name="list" size={size} color={color} />;
+              return  <ItemIcon
+              icon={'list'}
+              color={color}
+              size={size}
+            />
             },
           }}
         />
@@ -93,7 +98,13 @@ function MainScreenTabs() {
           options={{
             title: 'Profile',
             tabBarIcon: ({color, size}) => {
-              return <Ionicons name="person" size={size} color={color} />;
+              return (
+                <ItemIcon
+                  icon={'person'}
+                  color={color}
+                  size={size}
+                />
+              );
             },
           }}
         />
@@ -108,8 +119,12 @@ function MainScreenTabs() {
               : [styles.buttonInnerView];
           }}
           android_ripple={{color: Colors.ripple, borderless: true}}
-          onPress={() => navigation.navigate('AddNewItem' as never ) }>
-          <Ionicons name="add" size={42} color={Colors.textColor} />
+          onPress={() => navigation.navigate('AddNewItem' as never)}>
+          <ItemIcon
+            icon={Platform.OS == 'ios' ? 'ios-add' : 'add'}
+            color={Colors.textColor}
+            size={42}
+          />
         </Pressable>
       </View>
     </View>

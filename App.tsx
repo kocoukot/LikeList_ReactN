@@ -3,7 +3,7 @@ import {TabBar} from './src/navigation';
 
 function App() {
   return (
-      <TabBar barColor="#FD975E" />
+      <TabBar/>
   );
 }
 

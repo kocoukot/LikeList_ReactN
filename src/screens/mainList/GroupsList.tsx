@@ -7,7 +7,7 @@ import {
   StatusBar,
 } from 'react-native';
 import {AutoDragSortableView} from 'react-native-drag-sort';
-import React, {useEffect, useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 
 import {ICONS_LIST} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
@@ -18,21 +18,19 @@ import { Colors } from '../../utils/Colors';
 const {width, height} = Dimensions.get('window');
 const deleteHeight = 150;
 
-interface Props {
-  list: LikedItem[];
-}
-export const GroupsList: React.FC<Props> = React.memo(({list}) => {
+
+export const GroupsList = memo((list : {list: LikedItem[]}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [dataList, setListData] = useState<LikedItem[]>(list);
+  const [dataList, setListData] = useState<LikedItem[]>(list.list);
   const [isDragging, setIsDragging] = useState(-1);
   const [deleteStatus, setDeleteStatus] = useState(0);
   const [isBuffer, setBuffer] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState<number>(null);
 
   useEffect(() => {
-    setListData(list);
+    setListData(list.list);
   }, [list]);
 
   function render_item(item: LikedItem, index: number) {
@@ -110,7 +108,7 @@ export const GroupsList: React.FC<Props> = React.memo(({list}) => {
   }
 
   function renderDeleteView() {
-    // if (deleteStatus === 1 || deleteStatus === 2) {
+    if (deleteStatus === 1 || deleteStatus === 2) {
       return (
         <View style={styles.delete}>
           {/* <Image style={styles.delete_icon} source={require('../data/img/delete.png')}/> */}
@@ -119,8 +117,8 @@ export const GroupsList: React.FC<Props> = React.memo(({list}) => {
           </Text>
         </View>
       );
-    // }
-    // return null;
+    }
+    return null;
   }
 
   return (

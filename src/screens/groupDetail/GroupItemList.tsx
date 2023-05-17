@@ -47,18 +47,6 @@ export function GroupItemList({route}) {
               initValue={itemData.item.itemRating}
               readonlyMode={true}
               onRatingSelect={onRatingUpdate}
-              style={{
-                container: {
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                  flex: 1,
-                  alignItems: 'flex-end',
-                },
-                starContainer: {
-                  alignContent: 'center',
-                  justifyContent: 'center',
-                },
-              }}
             />
           </View>
         )}></FlatList>
