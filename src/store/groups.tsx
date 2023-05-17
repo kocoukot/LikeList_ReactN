@@ -29,7 +29,7 @@ export const likeListGroupSlice = createSlice({
     },
     removeItem: (state, action) => {
       state.items.list = state.items.list.filter(
-        todo => todo.key !== action.payload,
+        todo => todo.key !== action.payload.key,
       );
     },
 
