@@ -1,23 +1,22 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export type LikedItem = {
-  key: string
-  itemName: string
-  itemComments: string
-  itemGroup: string
-  itemColor: string
-  itemRating: number,
-  itemGroupIcon: string
-}
+  key: string;
+  itemName: string;
+  itemComments: string;
+  itemGroup: string;
+  itemColor: string;
+  itemRating: number;
+  itemGroupIcon: string;
+};
 
-type LikedItemsState =  {
+type LikedItemsState = {
   list: LikedItem[];
-}
+};
 
 const initialState: LikedItemsState = {
   list: [],
 };
-
 
 export const likeListGroupSlice = createSlice({
   name: 'likeItem',
@@ -26,18 +25,21 @@ export const likeListGroupSlice = createSlice({
   },
   reducers: {
     addLikeItem: (state, action: PayloadAction<LikedItem>) => {
-      console.log('addItem action ' + action.payload)
       state.items.list.push(action.payload);
     },
     removeItem: (state, action) => {
-      state.items.list = state.items.list.filter(todo => todo.key !== action.payload);
+      state.items.list = state.items.list.filter(
+        todo => todo.key !== action.payload,
+      );
+    },
 
+    onOrderChange: (state, action: PayloadAction<LikedItem[]>) => {
+      state.items.list = action.payload;
     },
   },
 });
 
-export const addLikeItem = likeListGroupSlice.actions.addLikeItem;
-export const removeItem = likeListGroupSlice.actions.removeItem;
+export const {addLikeItem, removeItem, onOrderChange} =
+  likeListGroupSlice.actions;
 
 export default likeListGroupSlice.reducer;
-

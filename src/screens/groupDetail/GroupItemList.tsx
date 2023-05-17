@@ -1,10 +1,10 @@
 import {StyleSheet, View, Text, FlatList, Image} from 'react-native';
-import {Colors} from '../utils/Colors';
+import {Colors} from '../../utils/Colors';
 import {useNavigation} from '@react-navigation/native';
 import {useLayoutEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {RootState} from '../store/store';
-import RatingBarContent from '../components/RatingBarComponent';
+import {RootState} from '../../store/store';
+import RatingBarContent from '../../components/RatingBarComponent';
 
 export function GroupItemList({route}) {
   const navigation = useNavigation();

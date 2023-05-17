@@ -4,7 +4,7 @@ import {
   View,
   SafeAreaView,
   ScrollView,
-  FlatList,
+
 } from 'react-native';
 
 import {Colors} from '../../utils/Colors';
@@ -12,12 +12,12 @@ import {MainAppButton} from '../../components/Buttons';
 import {useDispatch} from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
-import {addLikeItem} from '../../store/groups';
+// import {addLikeItem} from '../../store/groups';
+import { addLikeItem, LikedItem } from '../../store/groups'; 
 
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import InputComponent from '../../components/InputComponent';
-import {rgbToHex} from '../../utils';
-import {LikedItem} from '../../store/groups';
+
 import uuid from 'react-native-uuid';
 import RatingBarContent from '../../components/RatingBarComponent';
 
@@ -25,6 +25,8 @@ import IconsListComponent from './content/IconsList';
 
 import ColorPickerComponent from './content/ColorPickerComponent';
 import { IImage } from '../../../assets';
+import { store } from '../../store/store';
+
 //
 export function AddNewItemScreen() {
   const dispatch = useDispatch();
@@ -33,7 +35,7 @@ export function AddNewItemScreen() {
   const [itemName, setItemName] = useState('');
   const [itemGroupName, setItemGroupName] = useState('');
   const [itemComments, setItemComments] = useState('');
-  const [selectedColor, setSelectedColor] = useState('#ffd6d6');
+  const [selectedColor, setSelectedColor] = useState('#fff3d6');
   const [selectedRating, setSelectedRating] = useState(4);
   const [selectedIcon, setSelectedIcon] = useState('');
 
@@ -53,7 +55,11 @@ export function AddNewItemScreen() {
         itemRating: selectedRating,
         itemGroupIcon: selectedIcon,
       };
-      dispatch(addLikeItem(newItem));
+
+      store.dispatch(addLikeItem(newItem))
+      // dispatch(addLikeItem(newItem));
+      // dispatch();
+
       navigation.goBack();
     }
   }
@@ -61,7 +67,7 @@ export function AddNewItemScreen() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaView style={styles.container}>
-        <ScrollView
+        {/* <ScrollView
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'space-between',
@@ -69,7 +75,7 @@ export function AddNewItemScreen() {
             backgroundColor: Colors.backgroundColor,
           }}
           nestedScrollEnabled={true}
-          alwaysBounceVertical={false}>
+          alwaysBounceVertical={false}> */}
           <View style={styles.viewStyle}>
             <InputComponent
               limitAmount={30}
@@ -131,7 +137,7 @@ export function AddNewItemScreen() {
               onPress={onAddNewItem}
             />
           </View>
-        </ScrollView>
+        {/* </ScrollView> */}
       </SafeAreaView>
     </GestureHandlerRootView>
   );

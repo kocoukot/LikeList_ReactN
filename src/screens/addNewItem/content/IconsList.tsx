@@ -68,8 +68,6 @@ export default function IconsListComponent({
         data={ICONS_LIST}
         numColumns={4}
         renderItem={itemData => {
-          console.log('itemData ' + itemData.item);
-          const imgName = itemData.item;
 
           return (
             <View
@@ -89,7 +87,6 @@ export default function IconsListComponent({
                     : {flex: 1};
                 }}
                 onPress={() => {
-                  console.log('selected icon ' + itemData.item);
                   onIconSelect(itemData.item);
                 }}
                 android_ripple={{

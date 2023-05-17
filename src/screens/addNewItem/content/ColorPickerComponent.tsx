@@ -10,7 +10,7 @@ export default function ColorPickerComponent({onSelectColor}) {
       thumbSize={thumbSize}
       sliderThickness={sliderThikness}
       style={{paddingVertical: 24}}
-      value="#ffd6d6"
+      value="#fff3d6"
       thumbShape="circle"
       onComplete={onSelectColor}>
       <HueSlider adaptSpectrum={true} style={styles.slider} vertical={true} />

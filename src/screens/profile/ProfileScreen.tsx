@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
-import { generateColor } from '../utils';
-import {Colors} from '../utils/Colors';
+import { generateColor } from '../../utils';
+import {Colors} from '../../utils/Colors';
 
 export const ProfileScreen: React.FC = () => {
   const colors = useMemo(() => [...new Array(20)].map(() => generateColor()), []);

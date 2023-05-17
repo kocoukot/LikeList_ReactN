@@ -22,8 +22,8 @@ export default function RatingBarContent({
       tintColor={Colors.backgroundColor}
       ratingBackgroundColor={Colors.tabBarColor}
       ratingColor={Colors.tabBarInactiveColor}
-      style={style}
-      ratingImage={require('../../assets/heart.png')}
+      style={[{paddingTop:readonlyMode ? 0 : 16},style]}
+      ratingImage={require('../../assets/img_heart.png')}
       onFinishRating={ratingCompleted}
     />
   );

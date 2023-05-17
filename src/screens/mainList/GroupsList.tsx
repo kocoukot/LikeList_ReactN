@@ -1,29 +1,38 @@
-import React, {useState} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   Dimensions,
   Image,
-  Pressable,
+  ScrollView,
 } from 'react-native';
 import {DraggableGrid} from 'react-native-draggable-grid';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {LikedItem} from '../store/groups';
 import {useNavigation} from '@react-navigation/native';
-import {ICONS_LIST} from '../../assets';
+import {ICONS_LIST} from '../../../assets';
+import {useDispatch} from 'react-redux';
+import {onOrderChange, LikedItem} from '../../store/groups';
+
 
 const windowWidth = Dimensions.get('window').width;
+interface Props {
+  list : LikedItem[];
+}
 
-export function MyTest({list}) {
+export const GroupsList: React.FC<Props> = React.memo(({ list}) =>  {
+
   const [data, setData] = useState<LikedItem[]>(list);
+  useEffect(()=>{
+    setData(list)
+  },[list])
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   function render_item(item: LikedItem) {
-
     const image = ICONS_LIST.find(listItem => {
-      return listItem.title == item.itemGroupIcon
-    })
+      return listItem.title == item.itemGroupIcon;
+    });
 
     return (
       <View
@@ -51,18 +60,23 @@ export function MyTest({list}) {
   }
 
   return (
-    <DraggableGrid
-      itemHeight={windowWidth / 3.5}
-      numColumns={2}
-      onItemPress={onItemPress}
-      renderItem={render_item}
-      data={data}
-      onDragRelease={data => {
-        setData(data);
-      }}
-    />
+    <ScrollView style={{flex: 1, paddingBottom: 80}}>
+      <DraggableGrid
+
+        style={{flex: 1, marginBottom: 80}}
+        itemHeight={windowWidth / 3.5}
+        numColumns={2}
+        onItemPress={onItemPress}
+        renderItem={render_item}
+        data={data}
+        onDragRelease={data => {
+          setData(data);
+          dispatch(onOrderChange(data));
+        }}
+      />
+    </ScrollView>
   );
-}
+})
 
 const styles = StyleSheet.create({
   cardOuterView: {

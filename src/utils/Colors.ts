@@ -10,7 +10,8 @@ export const Colors = {
     shadowColor: "black",
     ripple: '#F3FFE6',
     red: 'red',
-    black: 'black'
+    black: 'black',
+    like: "#7DB9BD"
 }
 //1 #F3FFE6
 //2 #E5E8D1
