@@ -13,19 +13,18 @@ import {ICONS_LIST} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {onOrderChange, LikedItem, removeItem} from '../../store/groups';
-import { Colors } from '../../utils/Colors';
+import {Colors} from '../../utils/Colors';
 
 const {width, height} = Dimensions.get('window');
 const deleteHeight = 150;
 
-
-export const GroupsList = memo((list : {list: LikedItem[]}) => {
+export const GroupsList = memo((list: {list: LikedItem[]}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [dataList, setListData] = useState<LikedItem[]>(list.list);
   const [isDragging, setIsDragging] = useState(-1);
-  const [deleteStatus, setDeleteStatus] = useState(0);
+  const [deleteStatus, setDeleteStatus] = useState(0); // 0 - nothing/ 1 - item moving / 2 - item in deletion/
   const [isBuffer, setBuffer] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState<number>(null);
 
@@ -47,20 +46,14 @@ export const GroupsList = memo((list : {list: LikedItem[]}) => {
         ]}
         key={item.key}>
         <Text style={styles.title}>{item.itemGroup}</Text>
-        <Image
-          style={{flex: 1,}}
-          resizeMode="contain"
-          source={image.image}
-        />
+        <Image style={{flex: 1}} resizeMode="contain" source={image.image} />
       </View>
     );
   }
   function onItemPress(item: LikedItem) {
     navigation.navigate(
       'Details' as never,
-      {
-        groupName: item.itemGroup,
-      } as never,
+      {groupName: item.itemGroup} as never,
     );
   }
 
@@ -91,13 +84,30 @@ export const GroupsList = memo((list : {list: LikedItem[]}) => {
   }
 
   function onDragEnd(startIndex, endIndex) {
+    console.log(
+      'dragging startIndex - ' +
+        startIndex +
+        ' / endIndex - ' +
+        endIndex +
+        ' / deleteStatus - ' +
+        deleteStatus,
+    );
     if (deleteStatus === 2) {
       if (startIndex === endIndex) {
-        const newData = [...dataList];
-        newData.splice(startIndex, 1);
+        console.log();
+        // const newData = [...dataList];
+        // newData.splice(startIndex, 1);
         setDeleteStatus(0);
-        setListData(newData);
+        const itemToDelete = dataList[startIndex];
+        console.log('onDragEnd item to delete - ' + itemToDelete.itemGroup);
+        dispatch(removeItem(itemToDelete));
+
+        // setListData(newData);
       } else {
+        const itemToDelete = dataList[startIndex];
+        console.log('onDragEnd item to delete - ' + itemToDelete.itemGroup);
+        dispatch(removeItem(itemToDelete));
+
         setDeleteIndex(endIndex);
         setDeleteStatus(0);
       }
@@ -125,12 +135,12 @@ export const GroupsList = memo((list : {list: LikedItem[]}) => {
     <View style={styles.container}>
       <View style={styles.sort}>
         <AutoDragSortableView
-        bottomViewHeight={0}
+          bottomViewHeight={0}
           renderBottomView={<View style={{flex: 1, height: 150}} />}
           minOpacity={0.4}
           dataSource={dataList}
           isDragFreely={true}
-          keyExtractor={(item) => item.key}
+          keyExtractor={item => item.key}
           parentWidth={width}
           onClickItem={(_, item) => {
             // dispatch(removeItem(item));
@@ -152,9 +162,9 @@ export const GroupsList = memo((list : {list: LikedItem[]}) => {
             if (deleteIndex != null) {
               setDeleteIndex(null);
               const itemToDelete = data[deleteIndex];
+              console.log('onDataChange item to delete - ' + itemToDelete);
               dispatch(removeItem(itemToDelete));
-            } 
-             else {
+            } else {
               dispatch(onOrderChange(data));
             }
           }}
@@ -169,10 +179,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 8,
-
   },
   sort: {
-
     flex: 1,
   },
   cardOuterView: {
@@ -227,6 +235,6 @@ const styles = StyleSheet.create({
   delete_txt: {
     fontSize: 16,
     color: Colors.textColor,
-    fontWeight:"600"
+    fontWeight: '600',
   },
 });

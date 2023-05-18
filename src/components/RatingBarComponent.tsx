@@ -17,6 +17,7 @@ export default function RatingBarContent({
 
   return (
     <StarRating
+      starSize={readonlyMode ? 28 : 32}
       containerStyle={{paddingTop: readonlyMode ? 0 : 16}}
       starStyle={{paddingHorizontal: readonlyMode ? 4 : 18}}
       emptyStar={Platform.OS == 'ios' ? 'ios-heart' : 'heart'}

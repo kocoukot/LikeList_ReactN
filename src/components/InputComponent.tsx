@@ -6,15 +6,17 @@ export default function InputComponent({
   placeholder,
   limitAmount,
   onTextChanged,
+  initValue = '',
   isMultiline = false,
 }) {
-  const [inputVallue, setItemGroupName] = useState('');
+  const [inputVallue, setItemGroupName] = useState(initValue);
 
   function onTextChange(text: string) {
     setItemGroupName(text);
     onTextChanged(text);
   }
-
+  
+  // 
   return (
     <TextInput
       multiline={isMultiline}
@@ -22,6 +24,7 @@ export default function InputComponent({
       autoCapitalize={'sentences'}
       value={inputVallue}
       placeholder={placeholder}
+      placeholderTextColor={Colors.tabBarInactiveColor}
       style={[styles.inputStyle, {minHeight: isMultiline ? 50 : 48}]}
       onChangeText={text => {
         onTextChange(text);
@@ -37,6 +40,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.buttonColor,
     marginTop: 16,
     paddingHorizontal: 16,
-    paddingVertical: Platform.OS == 'ios' ? 16: 16
+    paddingVertical: Platform.OS == 'ios' ? 16: 16,    
   },
 });

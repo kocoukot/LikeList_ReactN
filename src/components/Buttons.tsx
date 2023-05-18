@@ -6,10 +6,9 @@ export function MainAppButton({title, isEnable, onPress}) {
   const [btnState, setBtnState] = useState(false);
 
   return (
-    <View style={[styles.buttonOuterView, isEnable && styles.buttonShadow]}>
+    <View style={[styles.buttonOuterView, isEnable ? styles.buttonShadow : {backgroundColor:Colors.buttonColor}]}>
       <Pressable
         style={({pressed}) => {
-        //  setBtnState(pressed);
           return  pressed && isEnable
             ? [styles.buttonInnerView, styles.pressed]
             : [styles.buttonInnerView];
@@ -26,12 +25,12 @@ const styles = StyleSheet.create({
   buttonOuterView: {
     marginVertical: 16,
     borderRadius: 28,
-    elevation:8,
-    marginBottom:20
+    // elevation:8,
+    marginBottom:20,
+    backgroundColor: Colors.buttonColor,
   },
 
   buttonInnerView: {
-
     backgroundColor: Colors.buttonColor,
     borderRadius: 28,
     paddingHorizontal: 16,
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
   },
   
   buttonShadow : {
-    elevation: 16,
+    elevation: 8,
     shadowColor: Colors.shadowColor,
     shadowRadius: 8,
     shadowOpacity: 0.3,

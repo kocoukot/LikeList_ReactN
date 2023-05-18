@@ -10,6 +10,7 @@ import {Colors} from '../utils/Colors';
 import {Provider} from 'react-redux';
 import {store, persistor} from '../store/store';
 import {PersistGate} from 'redux-persist/integration/react';
+import ItemDetailInfo from '../screens/itemDetail/ItemDetailInfo';
 const ListStack = createNativeStackNavigator();
 
 export const TabBar: React.FC = () => (
@@ -24,7 +25,6 @@ export const TabBar: React.FC = () => (
           <ListStack.Navigator
             screenOptions={{
               headerStyle: [styles.headerStyle, styles.screenStyle],
-
               headerTintColor: Colors.textColor,
             }}>
             <ListStack.Screen
@@ -38,6 +38,13 @@ export const TabBar: React.FC = () => (
             <ListStack.Screen
               name="Details"
               component={GroupItemList}
+              options={{
+                headerStyle: [styles.headerStyle],
+              }}
+            />
+            <ListStack.Screen
+              name="ItemDetailInfo"
+              component={ItemDetailInfo}
               options={{headerStyle: [styles.headerStyle]}}
             />
           </ListStack.Navigator>

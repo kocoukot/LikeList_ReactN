@@ -4,6 +4,7 @@ export type LikedItem = {
   key: string;
   itemName: string;
   itemComments: string;
+  itemSubgroup: string;
   itemGroup: string;
   itemColor: string;
   itemRating: number;
@@ -29,8 +30,18 @@ export const likeListGroupSlice = createSlice({
     },
     removeItem: (state, action) => {
       state.items.list = state.items.list.filter(
-        todo => todo.key !== action.payload.key,
+        item => item.itemGroup !== action.payload.itemGroup,
       );
+    },
+    onUpdateItem: (state, action: PayloadAction<LikedItem>) => {
+      console.log("action " + action.payload.itemRating)
+
+       state.items.list = state.items.list.map(item => {
+        if (item.key == action.payload.key) {
+          return {...item,   itemName: action.payload.itemName, itemComments: action.payload.itemComments, itemRating: action.payload.itemRating};
+        }
+        return item;
+      });
     },
 
     onOrderChange: (state, action: PayloadAction<LikedItem[]>) => {
@@ -39,7 +50,7 @@ export const likeListGroupSlice = createSlice({
   },
 });
 
-export const {addLikeItem, removeItem, onOrderChange} =
+export const {addLikeItem, removeItem, onOrderChange, onUpdateItem} =
   likeListGroupSlice.actions;
 
 export default likeListGroupSlice.reducer;

@@ -1,5 +1,9 @@
 export const Colors = {
 
+    // primaryLight: "#FFFEF2",
+//mainTextColorDark : "#4F4445",
+// mainBlack : "#000000"
+
     backgroundColor: "#FFFEF2",
     textColor: "#4F4445",
     buttonColor: "#E5E8D1",
