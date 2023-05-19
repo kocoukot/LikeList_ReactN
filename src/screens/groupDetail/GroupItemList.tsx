@@ -5,6 +5,8 @@ import {
   SectionList,
   Dimensions,
   Pressable,
+  Animated,
+  Alert,
 } from 'react-native';
 import {Colors} from '../../utils/Colors';
 import {useNavigation} from '@react-navigation/native';
@@ -13,6 +15,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import RatingBarContent from '../../components/RatingBarComponent';
 import {LikedItem} from '../../store/groups';
+import ItemIcon from '../../components/IconResolve';
 
 const {width, height} = Dimensions.get('window');
 
@@ -25,8 +28,9 @@ export function GroupItemList({route}) {
   const navigation = useNavigation();
   const selectedGroupName = route.params.groupName;
 
+
   const myList = useSelector((state: RootState) => state.items.list);
-  const [groupList, setGroupList] = useState([]);
+  const [groupList, setGroupList] = useState<IGroup[]>([]);
 
   const uniqueTags = [];
   const groupItemsList = myList.filter(item => {
@@ -50,10 +54,17 @@ export function GroupItemList({route}) {
   });
 
   useEffect(() => {
+    console.log(
+      'useEffect dataList ' +
+        dataList.map(item => {
+          return item.data.map(item => {return item.itemRating});
+        }),
+    );
+    
     setGroupList(dataList);
-    console.log("useEffect myList " + dataList.map(item => {return }))
-  }, [myList]);
 
+  }, [myList]);
+  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: selectedGroupName,
@@ -83,7 +94,7 @@ export function GroupItemList({route}) {
         SectionSeparatorComponent={separator}
         style={{backgroundColor: Colors.backgroundColor, marginTop: 16}}
         sections={groupList}
-        keyExtractor={(item, index) => item.key + index}
+        keyExtractor={(item, index) => item.key}
         renderSectionHeader={({section: {title}}) => {
           return (
             <View style={{backgroundColor: Colors.backgroundColor}}>
@@ -94,26 +105,46 @@ export function GroupItemList({route}) {
           );
         }}
         renderItem={({item, index}) => {
+          console.log(
+            'useEffect itemName ' + item.itemName + " rating " + item.itemRating);
+
           return (
-            <Pressable
-              style={({pressed}) => {
-                return pressed
-                  ? [styles.rowPress, styles.pressed]
-                  : [styles.rowPress];
-              }}
-              onPress={() => {
-                onPress(item);
-              }}
-              android_ripple={{color: Colors.ripple}}>
-              <View style={styles.itemRow}>
-                <Text style={styles.title}>{item.itemName}</Text>
-                <RatingBarContent
-                  initValue={item.itemRating}
-                  readonlyMode={true}
-                  onRatingSelect={onRatingUpdate}
-                />
-              </View>
-            </Pressable>
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+              <Pressable
+                style={({pressed}) => {
+                  return pressed
+                    ? [styles.rowPress, styles.pressed]
+                    : [styles.rowPress];
+                }}
+                onPress={() => {
+                  onPress(item);
+                }}
+                android_ripple={{color: Colors.ripple}}>
+                  
+                <View style={styles.itemRow}>
+                  <Text style={styles.title}>{item.itemName}</Text>
+                  <RatingBarContent
+                    initValue={item.itemRating}
+                    readonlyMode={true}
+                    onRatingSelect={onRatingUpdate}
+                  />
+                </View>
+              </Pressable>
+
+              {item.itemComments && (
+                <Pressable
+                  style={{padding: 4}}
+                  onPress={() => {
+                    item.itemComments && Alert.alert(item.itemComments);
+                  }}>
+                  <ItemIcon
+                    icon={'information-circle-outline'}
+                    color={Colors.tabBarInactiveColor}
+                    size={24}
+                  />
+                </Pressable>
+              )}
+            </View>
           );
         }}
       />
@@ -141,7 +172,9 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: Colors.tabBarActiveColor,
   },
-  rowPress: {},
+  rowPress: {
+    flex: 1,
+  },
   pressed: {
     opacity: 0.5,
   },

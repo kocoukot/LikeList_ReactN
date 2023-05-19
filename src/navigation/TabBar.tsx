@@ -45,7 +45,7 @@ export const TabBar: React.FC = () => (
             <ListStack.Screen
               name="ItemDetailInfo"
               component={ItemDetailInfo}
-              options={{headerStyle: [styles.headerStyle]}}
+              options={{headerStyle: [styles.headerStyle], presentation:"modal"}}
             />
           </ListStack.Navigator>
         </NavigationContainer>

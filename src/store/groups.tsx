@@ -34,11 +34,11 @@ export const likeListGroupSlice = createSlice({
       );
     },
     onUpdateItem: (state, action: PayloadAction<LikedItem>) => {
-      console.log("action " + action.payload.itemRating)
+      console.log('action ' + action.payload.itemRating);
 
-       state.items.list = state.items.list.map(item => {
+      state.items.list = state.items.list.map(item => {
         if (item.key == action.payload.key) {
-          return {...item,   itemName: action.payload.itemName, itemComments: action.payload.itemComments, itemRating: action.payload.itemRating};
+          return {...item, ...action.payload};
         }
         return item;
       });

@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
   },
   buttonOuterView: {
     bottom: 20,
+    backgroundColor: Colors.buttonColor,
     left: windowWidth / 2 - 32,
     position: 'absolute',
     borderRadius: 32,

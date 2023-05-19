@@ -1,7 +1,7 @@
 import {Platform, StyleSheet} from 'react-native';
 import {Colors} from '../utils/Colors';
 import StarRating from 'react-native-star-rating';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 //
 export default function RatingBarContent({
   initValue = 4,
@@ -14,7 +14,10 @@ export default function RatingBarContent({
   }
 
   const [rating, setRating] = useState(initValue);
+  useEffect(()=>{
 
+    setRating(initValue)
+  }, [initValue])
   return (
     <StarRating
       starSize={readonlyMode ? 28 : 32}

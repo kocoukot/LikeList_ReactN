@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardOuterView: {
+    
     paddingHorizontal: 8,
     flexDirection: 'row',
     margin: 8,
