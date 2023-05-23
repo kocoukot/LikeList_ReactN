@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   buttonOuterView: {
     marginVertical: 16,
     borderRadius: 28,
-    // elevation:8,
     marginBottom:20,
     backgroundColor: Colors.buttonColor,
   },

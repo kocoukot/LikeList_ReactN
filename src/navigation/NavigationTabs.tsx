@@ -73,11 +73,7 @@ function MainScreenTabs() {
           component={ListScreen}
           options={{
             tabBarIcon: ({color, size}) => {
-              return  <ItemIcon
-              icon={'list'}
-              color={color}
-              size={size}
-            />
+              return <ItemIcon icon={'list'} color={color} size={size} />;
             },
           }}
         />
@@ -98,13 +94,7 @@ function MainScreenTabs() {
           options={{
             title: 'Profile',
             tabBarIcon: ({color, size}) => {
-              return (
-                <ItemIcon
-                  icon={'person'}
-                  color={color}
-                  size={size}
-                />
-              );
+              return <ItemIcon icon={'person'} color={color} size={size} />;
             },
           }}
         />

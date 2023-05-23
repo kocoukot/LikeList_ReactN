@@ -25,37 +25,48 @@ export function AddNewItemScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const [itemName, setItemName] = useState('');
-  const [itemGroupName, setItemGroupName] = useState('');
-  const [itemComments, setItemComments] = useState('');
-  const [selectedColor, setSelectedColor] = useState('#fff3d6');
-  const [selectedRating, setSelectedRating] = useState(4);
-  const [selectedIcon, setSelectedIcon] = useState<string>('');
-  const [itemSubGroup, setItemSubGroup] = useState('Undefined');
+  // const [itemName, setItemName] = useState('');
+  // const [itemGroupName, setItemGroupName] = useState('');
+  // const [itemComments, setItemComments] = useState('');
+  // const [selectedColor, setSelectedColor] = useState('#fff3d6');
+  // const [selectedRating, setSelectedRating] = useState(4);
+  // const [selectedIcon, setSelectedIcon] = useState<string>('');
+  // const [itemSubGroup, setItemSubGroup] = useState('Undefined');
 
-  const onSelectColor = ({hex}) => {
-    setSelectedColor(hex);
-    console.log(hex);
-  };
+  const [likedItem, setLikedItem] = useState<LikedItem>({
+    key: uuid.v4().toString(),
+    itemName: '',
+    itemComments: '',
+    itemGroup: '',
+    itemColor: '#fff3d6',
+    itemRating: 4,
+    itemGroupIcon: '',
+    itemSubgroup: 'Undefined',
+  });
 
-  function checkAvailable(){
-    return itemName.length > 0 && itemGroupName.length > 0 && ((selectedIcon.length > 0) ? true : false)
+  function onItemDataChanged(identifierKey: string, text: string) {
+    console.log("identifierKey " + identifierKey + " text " + text )
+    setLikedItem(current => {
+      return {
+        ...current,
+        [identifierKey]: text.trim(),
+      };
+    });
+    console.log("likedItem " + likedItem  )
+
+  }
+
+  function checkAvailable() {
+    return (
+      likedItem.itemName.length > 0 &&
+      likedItem.itemGroup.length > 0 &&
+      !!(likedItem.itemGroupIcon.length > 0)
+    );
   }
 
   function onAddNewItem() {
     if (checkAvailable()) {
-      const newItem: LikedItem = {
-        key: uuid.v4().toString(),
-        itemName: itemName.trim(),
-        itemComments: itemComments.trim(),
-        itemGroup: itemGroupName.trim(),
-        itemColor: selectedColor,
-        itemRating: selectedRating,
-        itemGroupIcon: selectedIcon,
-        itemSubgroup: itemSubGroup.trim(),
-      };
-
-      dispatch(addLikeItem(newItem));
+      dispatch(addLikeItem(likedItem));
       navigation.goBack();
     }
   }
@@ -77,26 +88,30 @@ export function AddNewItemScreen() {
               limitAmount={30}
               placeholder={'Item name'}
               onTextChanged={(text: string) => {
-                setItemName(text);
+                onItemDataChanged('itemName', text);
+                // setItemName(text);
               }}
             />
 
-            <RatingBarContent onRatingSelect={setSelectedRating} />
+            <RatingBarContent
+              onRatingSelect={rating => {
+                onItemDataChanged('itemRating', rating);
+              }}
+            />
 
             <InputComponent
               limitAmount={500}
               isMultiline={true}
               placeholder={'Comments'}
               onTextChanged={(text: string) => {
-                setItemComments(text);
+                onItemDataChanged('itemComments', text);
               }}
             />
-
             <InputComponent
               limitAmount={30}
               placeholder={'Subgroup'}
               onTextChanged={(text: string) => {
-                setItemSubGroup(text);
+                onItemDataChanged('itemSubgroup', text);
               }}
             />
 
@@ -105,34 +120,36 @@ export function AddNewItemScreen() {
                 height: 1,
                 backgroundColor: Colors.buttonColor,
                 marginTop: 24,
-                marginBottom: 12, 
+                marginBottom: 12,
               }}
             />
             <InputComponent
               limitAmount={30}
               placeholder={'Item group'}
               onTextChanged={(text: string) => {
-                setItemGroupName(text);
+                onItemDataChanged('itemGroup', text);
               }}
             />
 
             <View style={styles.colorSection}>
               <IconsListComponent
                 onIconSelect={(item: IImage) => {
-                  setSelectedIcon(item.title);
+                  onItemDataChanged('itemGroupIcon', item.title);
                 }}
-                selectedIcon={selectedIcon}
-                selectedColor={selectedColor}
+                selectedIcon={likedItem.itemGroupIcon}
+                selectedColor={likedItem.itemColor}
               />
 
-              <ColorPickerComponent onSelectColor={onSelectColor} />
+              <ColorPickerComponent
+                onSelectColor={color => {
+                  onItemDataChanged('itemColor', color.hex);
+                }}
+              />
             </View>
             <View style={{flex: 1}} />
             <MainAppButton
               title={'Add new item'}
-              isEnable={
-                checkAvailable()
-              }
+              isEnable={checkAvailable()}
               onPress={onAddNewItem}
             />
           </View>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "342022364484",
+    "firebase_url": "https://likelist-efe2b.firebaseio.com",
+    "project_id": "likelist-efe2b",
+    "storage_bucket": "likelist-efe2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342022364484:android:45b25e31160d429772cb11",
+        "android_client_info": {
+          "package_name": "com.likelist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342022364484-k8ejv6jlcsjbj4qe2c6fuapdv8u5snqv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.likelist",
+            "certificate_hash": "a96b9686e87882e86cf99a79f21743eafd79ef3b"
+          }
+        },
+        {
+          "client_id": "342022364484-7bf2hd808bhea8knfsslg52nr6ucdg5n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3NogkeexnYvpjMLoMYZMuoVDAx-lVLW4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342022364484-7bf2hd808bhea8knfsslg52nr6ucdg5n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "342022364484-62uai6hsnaqun2at4g5bqce6v3t75bug.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kocoukot.LikeList"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
