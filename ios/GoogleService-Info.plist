@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>342022364484-v9eml35ccvg2t4fhi6qtu1aa5e2mnovc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.342022364484-v9eml35ccvg2t4fhi6qtu1aa5e2mnovc</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>342022364484-26o93ssagviah70sj98p1hg6l1ek99nf.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAOhryrF5DV3wPVmRg9-bg4bT0e81z0pes</string>
+	<key>GCM_SENDER_ID</key>
+	<string>342022364484</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.kocoukot.MyLikeList</string>
+	<key>PROJECT_ID</key>
+	<string>likelist-efe2b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>likelist-efe2b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:342022364484:ios:38eafbd794ee757b72cb11</string>
+	<key>DATABASE_URL</key>
+	<string>https://likelist-efe2b.firebaseio.com</string>
+</dict>
+</plist>
