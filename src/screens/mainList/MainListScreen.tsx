@@ -5,7 +5,8 @@ import {Colors} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import {GroupsList} from './GroupsList';
-import { GlobalTexts } from '../../utils/Texts';
+import {GlobalTexts} from '../../utils/Texts';
+import {MenuProvider} from 'react-native-popup-menu';
 
 export function ListScreen({navigation}) {
   const myList = useSelector((state: RootState) => state.items.list);
@@ -15,13 +16,15 @@ export function ListScreen({navigation}) {
   });
 
   return (
-    <View style={styles.container}>
-      {itemsList.length == 0 ? (
-        <Text style={styles.emptyText}>{GlobalTexts.emptyMainScreen}</Text>
-      ) : (
-        <GroupsList list={itemsList} />
-      )}
-    </View>
+    <MenuProvider style={styles.container}>
+      {/* <View style={styles.container}> */}
+        {itemsList.length == 0 ? (
+          <Text style={styles.emptyText}>{GlobalTexts.emptyMainScreen}</Text>
+        ) : (
+          <GroupsList list={itemsList} />
+        )}
+      {/* </View> */}
+    </MenuProvider>
   );
 }
 
@@ -32,6 +35,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: Colors.backgroundColor,
   },
+
   emptyText: {
     paddingTop: 64,
     color: Colors.textColor,

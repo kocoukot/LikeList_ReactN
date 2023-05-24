@@ -40,6 +40,6 @@ const styles = StyleSheet.create({
     borderColor: Colors.buttonColor,
     marginTop: 16,
     paddingHorizontal: 16,
-    paddingVertical: Platform.OS == 'ios' ? 16: 16,    
+    paddingVertical: 16,    
   },
 });

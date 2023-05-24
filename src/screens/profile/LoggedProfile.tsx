@@ -1,6 +1,8 @@
 import {GoogleSignin, User} from '@react-native-google-signin/google-signin';
-import {useEffect, useLayoutEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {useLayoutEffect, useState} from 'react';
+import {View, StyleSheet, Text, ActivityIndicator} from 'react-native';
+import {Colors} from '../../utils/Colors';
+import {delay} from '@reduxjs/toolkit/dist/utils';
 
 export default function LoggedProfile({isLoggedIn}) {
   const [currentUser, setCurrentUser] = useState<User>();
@@ -8,17 +10,30 @@ export default function LoggedProfile({isLoggedIn}) {
   const googleUser = async () => {
     const user = await GoogleSignin.getCurrentUser();
     console.log('user ' + user.user.email);
-    setCurrentUser(user);
+
+    setTimeout(() => {
+      setCurrentUser(user);
+    }, 1500);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     googleUser();
   }, []);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {justifyContent: currentUser ? 'flex-start' : 'center'},
+      ]}>
       <View>
-        <Text style={{}}>{currentUser.user.email}</Text>
+        {!currentUser ? (
+          <ActivityIndicator size="large" color={Colors.tabBarActiveColor} />
+        ) : (
+          <View style={styles.content}>
+            <Text style={{}}>{currentUser.user.email}</Text>
+          </View>
+        )}
       </View>
     </View>
   );
@@ -27,8 +42,9 @@ export default function LoggedProfile({isLoggedIn}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'space-between',
     paddingTop: 16,
     paddingBottom: 80,
   },
+
+  content: {},
 });

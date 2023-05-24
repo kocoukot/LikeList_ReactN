@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 import {AutoDragSortableView} from 'react-native-drag-sort';
 import React, {memo, useEffect, useState} from 'react';
-
 import {ICONS_LIST} from '../../../assets';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {onOrderChange, LikedItem, removeItem} from '../../store/groups';
 import {Colors} from '../../utils/Colors';
+import {EditPopUp} from './EditPopup';
 
 const {width, height} = Dimensions.get('window');
 const deleteHeight = 150;
@@ -32,7 +32,14 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
     setListData(list.list);
   }, [list]);
 
-  function render_item(item: LikedItem, index: number) {
+  function onEditPress(pressedItem: LikedItem) {
+    navigation.navigate(
+      'AddNewItem' as never,
+      {selectedGroup: pressedItem.key} as never,
+    );
+  }
+
+  function renderItem(item: LikedItem, index: number) {
     const image = ICONS_LIST.find(listItem => {
       return listItem.title == item.itemGroupIcon;
     });
@@ -45,6 +52,16 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
           !(isDragging == index) && styles.cardShadow,
         ]}
         key={item.key}>
+          
+        <EditPopUp
+          item={item}
+          onEditPress={() => {
+            onEditPress(item);
+          }}
+        onDeletePress={()=>{
+          dispatch(removeItem(item));
+        }}
+        />
         <Text style={styles.title}>{item.itemGroup}</Text>
         <Image style={{flex: 1}} resizeMode="contain" source={image.image} />
       </View>
@@ -67,14 +84,10 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
       setBuffer(true);
       setDeleteStatus(2);
       setBuffer(false);
-      // this.setState({deleteStatus: 2},() => {this.isBuffer = false})
     } else if (deleteStatus !== 1) {
       setBuffer(true);
       setDeleteStatus(1);
       setBuffer(false);
-
-      // this.isBuffer = true;
-      // this.setState({deleteStatus: 1},() => {this.isBuffer = false})
     }
   }
 
@@ -94,15 +107,10 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
     );
     if (deleteStatus === 2) {
       if (startIndex === endIndex) {
-        console.log();
-        // const newData = [...dataList];
-        // newData.splice(startIndex, 1);
         setDeleteStatus(0);
         const itemToDelete = dataList[startIndex];
         console.log('onDragEnd item to delete - ' + itemToDelete.itemGroup);
         dispatch(removeItem(itemToDelete));
-
-        // setListData(newData);
       } else {
         const itemToDelete = dataList[startIndex];
         console.log('onDragEnd item to delete - ' + itemToDelete.itemGroup);
@@ -143,13 +151,12 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
           keyExtractor={item => item.key}
           parentWidth={width}
           onClickItem={(_, item) => {
-            // dispatch(removeItem(item));
             onItemPress(item);
           }}
           childrenWidth={width / 2}
           childrenHeight={width / 3.5}
           renderItem={(item, index) => {
-            return render_item(item, index);
+            return renderItem(item, index);
           }}
           onDragging={onDragging}
           onDragStart={fromIndex => {
@@ -184,7 +191,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cardOuterView: {
-    
     paddingHorizontal: 8,
     flexDirection: 'row',
     margin: 8,
@@ -237,5 +243,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.textColor,
     fontWeight: '600',
+  },
+  edit: {
+    flexDirection: 'row',
+    top: 0,
+    left: 0,
+    position: 'absolute',
+    padding: 8,
+  },
+
+  divider: {
+    marginVertical: 5,
+    marginHorizontal: 2,
+    borderBottomWidth: 1,
+    borderColor: '#ccc',
+  },
+  logView: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  logItem: {
+    flexDirection: 'row',
+    padding: 8,
+  },
+  slideInOption: {
+    padding: 5,
+  },
+  text: {
+    textAlign: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+    fontSize: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

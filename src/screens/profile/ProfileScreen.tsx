@@ -5,7 +5,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import NotLoggedScreen from './NotLoggedProfile';
 import LoggedProfile from './LoggedProfile';
 import {useNavigation} from '@react-navigation/native';
-import ItemIcon from '../../components/IconResolve';
+import ItemIcon, { PressableIcon } from '../../components/IconResolve';
 
 export function ProfileScreen() {
   const navigation = useNavigation();
@@ -29,16 +29,7 @@ export function ProfileScreen() {
       headerRight: () =>
         isUserSigned && (
           <View style={{paddingEnd: 16}}>
-            <Pressable
-              style={({pressed}) => {
-                return pressed ? [styles.pressed] : [];
-              }}
-              android_ripple={{color: Colors.red, borderless: true}}
-              onPress={() => {
-                signOut();
-              }}>
-              <ItemIcon icon={'log-out'} color={Colors.red} size={24} />
-            </Pressable>
+            <PressableIcon  icon={'log-out'} color={Colors.red} size={24} onPress={signOut}/>
           </View>
         ),
     });
