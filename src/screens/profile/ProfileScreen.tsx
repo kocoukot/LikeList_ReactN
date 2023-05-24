@@ -1,11 +1,7 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
 import {Colors} from '../../utils/Colors';
-import {Button} from 'react-native';
-
-import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {MainAppButton} from '../../components/Buttons';
 import NotLoggedScreen from './NotLoggedProfile';
 import LoggedProfile from './LoggedProfile';
 import {useNavigation} from '@react-navigation/native';
@@ -15,7 +11,7 @@ export function ProfileScreen() {
   const navigation = useNavigation();
 
   const [isUserSigned, setIsSigned] = useState<boolean>();
-  
+
   async function signOut() {
     const isSignOut = await GoogleSignin.signOut();
     setIsSigned(false);
@@ -30,20 +26,21 @@ export function ProfileScreen() {
   useLayoutEffect(() => {
     isSignedIn();
     navigation.setOptions({
-      headerRight: () => (
-        isUserSigned && <View style={{paddingEnd: 16}}>
-          <Pressable
-            style={({pressed}) => {
-              return pressed ? [styles.pressed] : [];
-            }}
-            android_ripple={{color: Colors.red, borderless: true}}
-            onPress={() => {
-              signOut();
-            }}>
-            <ItemIcon icon={'log-out'} color={Colors.red} size={24} />
-          </Pressable>
-        </View>
-      ),
+      headerRight: () =>
+        isUserSigned && (
+          <View style={{paddingEnd: 16}}>
+            <Pressable
+              style={({pressed}) => {
+                return pressed ? [styles.pressed] : [];
+              }}
+              android_ripple={{color: Colors.red, borderless: true}}
+              onPress={() => {
+                signOut();
+              }}>
+              <ItemIcon icon={'log-out'} color={Colors.red} size={24} />
+            </Pressable>
+          </View>
+        ),
     });
   }, [isUserSigned]);
 
@@ -63,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.backgroundColor,
     paddingHorizontal: 16,
-    paddingBottom:80
+    paddingBottom: 80,
   },
   item: {
     margin: 10,

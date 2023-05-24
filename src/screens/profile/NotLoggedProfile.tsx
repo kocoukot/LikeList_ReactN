@@ -6,6 +6,7 @@ import {Colors} from '../../utils/Colors';
 
 export default function NotLoggedScreen({isLoggedIn}) {
   async function signinWithGoogle() {
+
     try {
       const {idToken} = await GoogleSignin.signIn();
       console.log('signinWithGoogle idToken ' + idToken);

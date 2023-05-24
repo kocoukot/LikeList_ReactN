@@ -1,19 +1,14 @@
 export const Colors = {
-
-    // primaryLight: "#FFFEF2",
-//mainTextColorDark : "#4F4445",
-// mainBlack : "#000000"
-
     backgroundColor: "#FFFEF2",
     textColor: "#4F4445",
     buttonColor: "#E5E8D1",
     tabBarColor: "#E8E4D1",
-    tabBarActiveColor: "#000000",
+    tabBarActiveColor: "#4F4445",
     tabBarInactiveColor: "#958e69",
     transparent: "transparent",
     shadowColor: "black",
     ripple: '#F3FFE6',
-    red: 'red',
+    red: '#e54b4b',
     black: 'black',
     like: "#7DB9BD"
 }

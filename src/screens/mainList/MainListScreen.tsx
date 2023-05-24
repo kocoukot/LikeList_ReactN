@@ -5,6 +5,7 @@ import {Colors} from '../../utils/Colors';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import {GroupsList} from './GroupsList';
+import { GlobalTexts } from '../../utils/Texts';
 
 export function ListScreen({navigation}) {
   const myList = useSelector((state: RootState) => state.items.list);
@@ -16,7 +17,7 @@ export function ListScreen({navigation}) {
   return (
     <View style={styles.container}>
       {itemsList.length == 0 ? (
-        <Text style={styles.emptyText}>Like list is empty</Text>
+        <Text style={styles.emptyText}>{GlobalTexts.emptyMainScreen}</Text>
       ) : (
         <GroupsList list={itemsList} />
       )}
