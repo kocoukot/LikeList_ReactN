@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store/store';
 import {useNavigation} from '@react-navigation/native';
-import {useLayoutEffect, useState} from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Colors} from '../../utils/Colors';
 import InputComponent from '../../components/InputComponent';
@@ -18,54 +18,59 @@ export default function ItemDetailInfo({route}) {
       return selectedItemKey == item.key;
     },
   );
-
+  const [likedItem, setLikedItem] = useState<LikedItem>();
+  useEffect(() => {
+    setLikedItem(selectedItem);
+  }, [navigation]);
+  
   useLayoutEffect(() => {
+    console.log('selectedItem ' + selectedItem.itemRating);
     navigation.setOptions({
       title: selectedItem.itemName,
     });
   }, [navigation]);
 
-  const [selectedRating, setSelectedRating] = useState(selectedItem.itemRating);
-  const [itemName, setItemName] = useState(selectedItem.itemName);
-  const [itemComments, setItemComments] = useState(selectedItem.itemComments);
+  function onItemDataChanged(identifierKey: string, text: string) {
+    console.log('identifierKey ' + identifierKey + ' text ' + text);
+    setLikedItem(current => {
+      return {
+        ...current,
+        [identifierKey]: text,
+      };
+    });
+    // console.log('likedItem ' + likedItem);
+  }
 
   function onSaveItem() {
-    const newItem: LikedItem = {
-      key: selectedItem.key,
-      itemName: itemName.trim(),
-      itemComments: itemComments.trim(),
-      itemGroup: selectedItem.itemGroup,
-      itemColor: selectedItem.itemColor,
-      itemRating: selectedRating,
-      itemGroupIcon: selectedItem.itemGroupIcon,
-      itemSubgroup: selectedItem.itemSubgroup,
-    };
-    dispatch(onUpdateItem(newItem));
+    dispatch(onUpdateItem(likedItem));
     navigation.goBack();
   }
   return (
     <View style={styles.container}>
       <InputComponent
-        initValue={selectedItem.itemName}
+        initValue={likedItem?.itemName}
         limitAmount={30}
         placeholder={'Item name'}
         onTextChanged={(text: string) => {
-            setItemName(text);
+          onItemDataChanged('itemName', text);
         }}
       />
 
-      <RatingBarContent
-        initValue={selectedRating}
-        onRatingSelect={setSelectedRating}
-      />
-
+      {!!selectedItem.itemRating && (
+        <RatingBarContent
+          initValue={likedItem?.itemRating ? likedItem?.itemRating: 3}
+          onRatingSelect={(rating: number) => {
+            onItemDataChanged('itemRating', rating.toString());
+          }}
+        />
+      )}
       <InputComponent
-        initValue={selectedItem.itemComments}
+        initValue={likedItem?.itemComments}
         limitAmount={500}
         isMultiline={true}
         placeholder={'Comments'}
         onTextChanged={(text: string) => {
-            setItemComments(text);
+          onItemDataChanged('itemComments', text);
         }}
       />
 

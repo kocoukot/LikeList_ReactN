@@ -35,7 +35,7 @@ export const GroupsList = memo((list: {list: LikedItem[]}) => {
   function onEditPress(pressedItem: LikedItem) {
     navigation.navigate(
       'AddNewItem' as never,
-      {selectedGroup: pressedItem.key} as never,
+      {selectedGroupKey: pressedItem.key} as never,
     );
   }
 

@@ -1,7 +1,7 @@
 import ColorPicker, {HueSlider} from 'reanimated-color-picker';
 import { StyleSheet } from 'react-native';
 
-export default function ColorPickerComponent({onSelectColor}) {
+export default function ColorPickerComponent({initColor, onSelectColor}) {
   const sliderThikness = 6;
   const thumbSize = 20;
   return (
@@ -10,7 +10,7 @@ export default function ColorPickerComponent({onSelectColor}) {
       thumbSize={thumbSize}
       sliderThickness={sliderThikness}
       style={{paddingVertical: 24}}
-      value="#fff3d6"
+      value={initColor}
       thumbShape="circle"
       onComplete={onSelectColor}>
       <HueSlider adaptSpectrum={true} style={styles.slider} vertical={true} />

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useLayoutEffect, useState} from 'react';
 import {TextInput, StyleSheet, Platform} from 'react-native';
 import {Colors} from '../utils/Colors';
 
@@ -9,10 +9,11 @@ export default function InputComponent({
   initValue = '',
   isMultiline = false,
 }) {
-  const [inputVallue, setItemGroupName] = useState(initValue);
+  // const [inputVallue, setItemGroupName] = useState(initValue);
+
 
   function onTextChange(text: string) {
-    setItemGroupName(text);
+    // setItemGroupName(text);
     onTextChanged(text);
   }
   
@@ -22,7 +23,7 @@ export default function InputComponent({
       multiline={isMultiline}
       maxLength={limitAmount}
       autoCapitalize={'sentences'}
-      value={inputVallue}
+      value={initValue}
       placeholder={placeholder}
       placeholderTextColor={Colors.tabBarInactiveColor}
       style={[styles.inputStyle, {minHeight: isMultiline ? 50 : 48}]}

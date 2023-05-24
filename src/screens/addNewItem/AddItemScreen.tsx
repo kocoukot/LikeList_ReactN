@@ -1,37 +1,33 @@
-import React, {useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
-
 import {Colors} from '../../utils/Colors';
 import {MainAppButton} from '../../components/Buttons';
-import {useDispatch} from 'react-redux';
-
-import {useNavigation} from '@react-navigation/native';
-
-import {addLikeItem, LikedItem} from '../../store/groups';
-
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {addLikeItem, LikedItem, onUpdateItem} from '../../store/groups';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import InputComponent from '../../components/InputComponent';
-
 import uuid from 'react-native-uuid';
 import RatingBarContent from '../../components/RatingBarComponent';
-
 import IconsListComponent from './content/IconsList';
-
 import ColorPickerComponent from './content/ColorPickerComponent';
 import {IImage} from '../../../assets';
+import {RootState} from '../../store/store';
 
 //
 export function AddNewItemScreen() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+  const route = useRoute();
+  const selectedItemKey = route.params?.selectedGroupKey;
+  const myList = useSelector((state: RootState) => state.items.list);
 
-  // const [itemName, setItemName] = useState('');
-  // const [itemGroupName, setItemGroupName] = useState('');
-  // const [itemComments, setItemComments] = useState('');
-  // const [selectedColor, setSelectedColor] = useState('#fff3d6');
-  // const [selectedRating, setSelectedRating] = useState(4);
-  // const [selectedIcon, setSelectedIcon] = useState<string>('');
-  // const [itemSubGroup, setItemSubGroup] = useState('Undefined');
+  const selectedItem =
+    !!selectedItemKey &&
+    myList.find(item => {
+      return item.key === selectedItemKey;
+    });
+  console.log('selectedItemKey ' + !!selectedItemKey);
 
   const [likedItem, setLikedItem] = useState<LikedItem>({
     key: uuid.v4().toString(),
@@ -41,19 +37,26 @@ export function AddNewItemScreen() {
     itemColor: '#fff3d6',
     itemRating: 4,
     itemGroupIcon: '',
-    itemSubgroup: 'Undefined',
+    itemSubgroup: '',
   });
 
+  useEffect(() => {
+    !!selectedItemKey && setLikedItem(selectedItem);
+  }, [selectedItem]);
+
+  useLayoutEffect(() => {
+    !!selectedItemKey && navigation.setOptions({title: 'Edit group'});
+  }, [navigation]);
+
   function onItemDataChanged(identifierKey: string, text: string) {
-    console.log("identifierKey " + identifierKey + " text " + text )
+    console.log('identifierKey ' + identifierKey + ' text ' + text);
     setLikedItem(current => {
       return {
         ...current,
-        [identifierKey]: text.trim(),
+        [identifierKey]: text,
       };
     });
-    console.log("likedItem " + likedItem  )
-
+    console.log('likedItem ' + likedItem);
   }
 
   function checkAvailable() {
@@ -66,7 +69,9 @@ export function AddNewItemScreen() {
 
   function onAddNewItem() {
     if (checkAvailable()) {
-      dispatch(addLikeItem(likedItem));
+      !!selectedItemKey 
+      ? dispatch(onUpdateItem(likedItem))
+      : dispatch(addLikeItem(likedItem))
       navigation.goBack();
     }
   }
@@ -74,86 +79,94 @@ export function AddNewItemScreen() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaView style={styles.container}>
-        <ScrollView
-          contentContainerStyle={{
+        {/* <ScrollView */}
+        {/* contentContainerStyle={{
             flexGrow: 1,
             justifyContent: 'space-between',
             flexDirection: 'column',
             backgroundColor: Colors.backgroundColor,
           }}
           nestedScrollEnabled={true}
-          alwaysBounceVertical={false}>
-          <View style={styles.viewStyle}>
-            <InputComponent
-              limitAmount={30}
-              placeholder={'Item name'}
-              onTextChanged={(text: string) => {
-                onItemDataChanged('itemName', text);
-                // setItemName(text);
-              }}
-            />
-
-            <RatingBarContent
-              onRatingSelect={rating => {
-                onItemDataChanged('itemRating', rating);
-              }}
-            />
-
-            <InputComponent
-              limitAmount={500}
-              isMultiline={true}
-              placeholder={'Comments'}
-              onTextChanged={(text: string) => {
-                onItemDataChanged('itemComments', text);
-              }}
-            />
-            <InputComponent
-              limitAmount={30}
-              placeholder={'Subgroup'}
-              onTextChanged={(text: string) => {
-                onItemDataChanged('itemSubgroup', text);
-              }}
-            />
-
-            <View
-              style={{
-                height: 1,
-                backgroundColor: Colors.buttonColor,
-                marginTop: 24,
-                marginBottom: 12,
-              }}
-            />
-            <InputComponent
-              limitAmount={30}
-              placeholder={'Item group'}
-              onTextChanged={(text: string) => {
-                onItemDataChanged('itemGroup', text);
-              }}
-            />
-
-            <View style={styles.colorSection}>
-              <IconsListComponent
-                onIconSelect={(item: IImage) => {
-                  onItemDataChanged('itemGroupIcon', item.title);
+          alwaysBounceVertical={false}> */}
+        <View style={styles.viewStyle}>
+          {!!!selectedItemKey && (
+            <View>
+              <InputComponent
+                initValue={likedItem.itemName}
+                limitAmount={30}
+                placeholder={'Item name'}
+                onTextChanged={(text: string) => {
+                  onItemDataChanged('itemName', text);
                 }}
-                selectedIcon={likedItem.itemGroupIcon}
-                selectedColor={likedItem.itemColor}
               />
 
-              <ColorPickerComponent
-                onSelectColor={color => {
-                  onItemDataChanged('itemColor', color.hex);
+              <RatingBarContent
+                onRatingSelect={(rating:number) => {
+                  onItemDataChanged('itemRating', rating.toString());
+                }}
+              />
+
+              <InputComponent
+                initValue={likedItem.itemComments}
+                limitAmount={500}
+                isMultiline={true}
+                placeholder={'Comments (optional)'}
+                onTextChanged={(text: string) => {
+                  onItemDataChanged('itemComments', text);
+                }}
+              />
+              <InputComponent
+                initValue={likedItem.itemSubgroup}
+                limitAmount={30}
+                placeholder={'Subgroup (optional)'}
+                onTextChanged={(text: string) => {
+                  onItemDataChanged('itemSubgroup', text);
+                }}
+              />
+              <View
+                style={{
+                  height: 1,
+                  backgroundColor: Colors.buttonColor,
+                  marginTop: 24,
+                  marginBottom: 12,
                 }}
               />
             </View>
-            <View style={{flex: 1}} />
-            <MainAppButton
-              title={'Add new item'}
-              isEnable={checkAvailable()}
-              onPress={onAddNewItem}
+          )}
+
+          <InputComponent
+            limitAmount={30}
+            placeholder={'Item group'}
+            initValue={likedItem.itemGroup}
+            onTextChanged={(text: string) => {
+              onItemDataChanged('itemGroup', text);
+            }}
+          />
+
+          <View style={styles.colorSection}>
+            <IconsListComponent
+              onIconSelect={(item: IImage) => {
+                onItemDataChanged('itemGroupIcon', item.title);
+              }}
+              selectedIcon={likedItem.itemGroupIcon}
+              selectedColor={likedItem.itemColor}
+            />
+
+            <ColorPickerComponent
+              initColor={likedItem.itemColor}
+              onSelectColor={color => {
+                onItemDataChanged('itemColor', color.hex);
+              }}
             />
           </View>
-        </ScrollView>
+          <View style={{flex: 1}} />
+          <MainAppButton
+            title={!!selectedItemKey ? 'Save item' : 'Add new item'}
+            isEnable={checkAvailable()}
+            onPress={onAddNewItem}
+          />
+        </View>
+        {/* </ScrollView> */}
       </SafeAreaView>
     </GestureHandlerRootView>
   );

@@ -26,7 +26,16 @@ export const likeListGroupSlice = createSlice({
   },
   reducers: {
     addLikeItem: (state, action: PayloadAction<LikedItem>) => {
-      state.items.list.push(action.payload);
+      state.items.list.push({
+        key: action.payload.key,
+        itemName: action.payload.itemName.trim(),
+        itemComments: action.payload.itemComments.trim(),
+        itemSubgroup: action.payload.itemSubgroup.length === 0 ? "Undefined" : action.payload.itemSubgroup.trim(),
+        itemGroup:  action.payload.itemGroup.trim(),
+        itemColor: action.payload.itemColor.trim(),
+        itemRating: action.payload.itemRating,
+        itemGroupIcon: action.payload.itemGroupIcon.trim(),
+      });
     },
     removeItem: (state, action) => {
       state.items.list = state.items.list.filter(
